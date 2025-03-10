@@ -7,13 +7,11 @@ const Converter = () => {
     function hexToRgb(hex) {
         hex = hex.replace(/^#/, "");
 
-        if (hex.length < 6) return null;
+        if (!/^([0-9A-Fa-f]{6})$/.test(hex)) return null;
 
         const r = parseInt(hex.slice(0, 2), 16);
         const g = parseInt(hex.slice(2, 4), 16);
         const b = parseInt(hex.slice(4, 6), 16);
-
-        if (isNaN(r) || isNaN(g) || isNaN(b)) return "Ошибка";
 
         return `rgb(${r}, ${g}, ${b})`;
     }
@@ -26,7 +24,7 @@ const Converter = () => {
 
     return (
         <div className="container" style={{
-            backgroundColor: rgb === "Ошибка" ? "red" : rgb || "white"
+            backgroundColor: rgb ? rgb : (hex.length === 7 ? "red" : "white")
         }}>
             <input
                 type="text"
@@ -34,7 +32,7 @@ const Converter = () => {
                 onChange={handleChange}
                 maxLength="7"
             />
-            <p>{rgb === "Ошибка" ? "Ошибка" : rgb}</p>
+            <p>{rgb ? rgb : (hex.length === 7 ? "Ошибка" : "")}</p>
         </div>
     );
 }
